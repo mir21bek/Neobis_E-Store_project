@@ -33,12 +33,13 @@ class Product(models.Model):
 
 
 class SaleProduct(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, blank=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     sale = models.BooleanField(verbose_name='скидка на товар', default=False)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'Скидка'
         verbose_name_plural = 'Скидки'
 
-    def __str__(self):
-        return self.sale
