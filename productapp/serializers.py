@@ -6,7 +6,7 @@ from .utils import calculate_discounted_price
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ('name')
+        fields = '__all__'
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -17,7 +17,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = ('category', 'id', 'product_name', 'product_description',
+                  'product_image', 'available', 'created', 'updated', 'regular_price', 'discounted_price')
 
     @staticmethod
     def get_discounted_price(obj):
@@ -34,4 +35,4 @@ class SaleProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SaleProduct
-        fields = ('category', 'product', 'sale')
+        fields = ('category', 'product', 'sale', 'sale_percentage', 'created', 'updated')

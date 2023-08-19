@@ -18,7 +18,7 @@ class Product(models.Model):
     product_description = models.TextField(verbose_name='Описание', max_length=1000)
     product_price = models.DecimalField(verbose_name='Цена', max_digits=7, decimal_places=2)
     product_image = models.ImageField(verbose_name='Фото товара',
-                                      upload_to='product_images/',
+                                      upload_to='media/product_images/',
                                       default='product_images/download.png')
     available = models.BooleanField(verbose_name='В наличии?', default=True)
     created = models.DateTimeField(auto_now_add=True)
