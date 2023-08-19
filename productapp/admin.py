@@ -7,14 +7,16 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
 
-@admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('category', 'product_name', 'product_price', 'created', 'updated')
-    list_filter = ('product_name', 'available', 'created')
+    list_display = ('product_name', 'product_price', 'discounted_price', 'available')
+    list_filter = ('available', 'created', 'category')
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
         return queryset.filter(available=True)
+
+
+admin.site.register(Product, ProductAdmin)
 
 
 @admin.register(SaleProduct)

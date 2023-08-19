@@ -24,6 +24,14 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    @property
+    def discounted_price(self):
+        sale_product = self.saleproduct_set.filter(sale=True).first()
+        if sale_product:
+            sale_percentage = sale_product.sale_percentage
+            return float(self.product_price) * (1 - float(sale_percentage) / 100)
+        return self.product_price
+
     class Meta:
         verbose_name = 'Продукция'
         verbose_name_plural = 'Продукции'
@@ -36,10 +44,14 @@ class SaleProduct(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     sale = models.BooleanField(verbose_name='скидка на товар', default=False)
+    sale_percentage = models.DecimalField(verbose_name='Процент скидки',
+                                          max_digits=5,
+                                          decimal_places=2,
+                                          null=True,
+                                          blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'Скидка'
         verbose_name_plural = 'Скидки'
-
