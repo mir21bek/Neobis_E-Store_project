@@ -1,10 +1,15 @@
 from django.contrib import admin
+from mptt.admin import MPTTModelAdmin
 from .models import Category, Product, SaleProduct
 
 
-@admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+class CategoryAdmin(MPTTModelAdmin):
+    list_display = ('name', 'parent',)
+    list_filter = ('parent',)
+    search_fields = ('name',)
+
+
+admin.site.register(Category, CategoryAdmin)
 
 
 class ProductAdmin(admin.ModelAdmin):
@@ -22,4 +27,3 @@ admin.site.register(Product, ProductAdmin)
 @admin.register(SaleProduct)
 class SaleProductAdmin(admin.ModelAdmin):
     list_display = ('product', 'sale', 'created', 'updated')
-

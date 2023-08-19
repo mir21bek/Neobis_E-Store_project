@@ -10,6 +10,8 @@ psycopg2-binary = "*"
 python-decouple = "*"
 pillow = "*"
 djangorestframework-simplejwt = "*"
+django-mptt = "*"
+django-mptt-admin = "*"
 
 [dev-packages]
 

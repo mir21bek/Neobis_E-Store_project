@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'users.apps.UsersConfig',
     'productapp.apps.ProductappConfig',
+    'mptt',
+    'django_mptt_admin',
 ]
 
 MIDDLEWARE = [
