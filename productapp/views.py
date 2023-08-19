@@ -5,6 +5,7 @@ from rest_framework import generics
 from .models import Product, Category, SaleProduct
 from rest_framework import permissions
 from paginations import ProductPagination
+from .utils import calculate_discounted_price
 
 
 class CategoryListView(generics.ListAPIView):
@@ -31,7 +32,7 @@ class ProductCreateUpdateApiView(generics.RetrieveUpdateDestroyAPIView):
 
         if sale_product and sale_product.sale:
             sale_percentage = sale_product.sale_percentage
-            discounted_price = instance.product_price * (1 - sale_percentage / 100)
+            discounted_price = calculate_discounted_price(instance.product_price, sale_percentage)
             instance.product_price = discounted_price
             instance.save()
 
@@ -42,7 +43,7 @@ class ProductCreateUpdateApiView(generics.RetrieveUpdateDestroyAPIView):
 
         if sale_product and sale_product.sale:
             sale_percentage = sale_product.sale_percentage
-            request.data['product_price'] = instance.product_price * (1 - sale_percentage / 100)
+            request.data['product_price'] = calculate_discounted_price(instance.product_price, sale_percentage)
 
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)

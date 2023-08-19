@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Category, Product, SaleProduct
+from .utils import calculate_discounted_price
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -23,7 +24,7 @@ class ProductSerializer(serializers.ModelSerializer):
         sale_product = SaleProduct.objects.filter(product=obj).first()
         if sale_product and sale_product.sale:
             sale_percentage = sale_product.sale_percentage
-            return obj.product_price * (1 - sale_percentage / 100)
+            return calculate_discounted_price(obj.product_price, sale_percentage)
         return None
 
 
