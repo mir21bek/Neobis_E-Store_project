@@ -1,8 +1,8 @@
 from rest_framework.response import Response
 
-from .serializers import CategorySerializer, ProductSerializer, SaleProductSerializer
+from .serializers import CategorySerializer, ProductSerializer, SaleProductSerializer, RatingSerializer, CommentSerializer
 from rest_framework import generics
-from .models import Product, Category, SaleProduct
+from .models import Product, Category, SaleProduct, Rating, Comment
 from rest_framework import permissions
 from .paginations import ProductPagination
 from .utils import calculate_discounted_price
@@ -73,3 +73,16 @@ class SaleProductApiView(generics.ListCreateAPIView):
     serializer_class = SaleProductSerializer
     pagination_class = ProductPagination
     permission_classes = [permissions.IsAuthenticated, IsOwnerOrAdmin]
+
+
+class RatingView(generics.ListCreateAPIView):
+    queryset = Rating.objects.all()
+    serializer_class = RatingSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class CommentView(generics.ListCreateAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = [permissions.AllowAny]
+

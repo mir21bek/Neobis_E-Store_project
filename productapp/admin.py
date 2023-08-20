@@ -1,6 +1,6 @@
 from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
-from .models import Category, Product, SaleProduct
+from .models import Category, Product, SaleProduct, Rating, Comment
 
 
 class CategoryAdmin(MPTTModelAdmin):
@@ -27,3 +27,13 @@ admin.site.register(Product, ProductAdmin)
 @admin.register(SaleProduct)
 class SaleProductAdmin(admin.ModelAdmin):
     list_display = ('product', 'sale', 'created', 'updated')
+
+
+@admin.register(Rating)
+class RatingAdmin(admin.ModelAdmin):
+    list_display = ('user', 'product', 'rating')
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('user', 'product', 'rating', 'created', 'text')
