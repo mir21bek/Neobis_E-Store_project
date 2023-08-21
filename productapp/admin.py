@@ -13,7 +13,7 @@ admin.site.register(Category, CategoryAdmin)
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('product_name', 'product_price', 'discounted_price', 'available')
+    list_display = ('product_name', 'product_price', 'discounted_price', 'available', 'avg_rating')
     list_filter = ('available', 'created', 'category')
 
     def get_queryset(self, request):

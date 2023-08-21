@@ -1,6 +1,7 @@
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 from django.contrib.auth import get_user_model
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 User = get_user_model()
 
@@ -37,6 +38,14 @@ class Product(models.Model):
             return float(self.product_price) * (1 - float(sale_percentage) / 100)
         return self.product_price
 
+    @property
+    def avg_rating(self):
+        ratings = self.rating.all()
+        if ratings.exists():
+            total = sum(rating.rating for rating in ratings)
+            return total / ratings.count()
+        return None
+
     class Meta:
         verbose_name = 'Продукция'
         verbose_name_plural = 'Продукции'
@@ -64,8 +73,8 @@ class SaleProduct(models.Model):
 
 class Rating(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    rating = models.BooleanField(default=False)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='rating')
+    rating = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
 
     class Meta:
         verbose_name = 'Рейтинг'
