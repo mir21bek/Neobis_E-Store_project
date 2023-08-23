@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'productapp.apps.ProductappConfig',
     'mptt',
     'django_mptt_admin',
+    'orders'
 ]
 
 MIDDLEWARE = [
